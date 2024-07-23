@@ -10,9 +10,12 @@ export class CreateUserDto {
   id: number;
 
   @IsNotEmpty()
-  username: String;
+  username: string;
 
   @IsNotEmpty()
   @IsEmail()
-  email: String;
+  email: string;
+
+  @IsNotEmpty()
+  age: number;
 }
