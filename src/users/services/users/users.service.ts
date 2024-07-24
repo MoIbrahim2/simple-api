@@ -4,33 +4,39 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'entities/User';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  private fakeData = [
-    { id: 1, username: 'ahmed', email: 'ahmed@gmail.com', age: 30 },
-  ];
-  getAllUsers() {
-    return this.fakeData;
+  constructor(@InjectRepository(User) private User: Repository<User>) {}
+
+  async getAllUsers() {
+    const users = await this.User.find();
+    return users;
   }
-  creatUser(userData) {
-    this.fakeData.push(userData);
+  async createUser(userData) {
+    const user = this.User.create(userData);
+    const savedUser = await this.User.save(user);
+    return savedUser;
+  }
+  async deleteUser(id) {
+    await this.User.delete({ id });
     return;
   }
-  deleteUser(id) {
-    const user = this.fakeData.find((el) => el.id === id);
-    if (user) this.fakeData = this.fakeData.filter((el) => el.id !== id);
-    return user;
-  }
   getUserById(id) {
-    const user = this.fakeData.find((el) => el.id === id);
-    return user;
+    return;
   }
-  editUserById(id, userData) {
-    this.fakeData = this.fakeData.map((el) => {
-      if (el.id === id) return { ...el, ...userData };
-      else return el;
-    });
-    return this.fakeData.find((user) => user.id === id);
+  async editUserById(id, userData) {
+    const existingUser = await this.User.findOneBy({ id });
+
+    if (!existingUser) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    await this.User.update(id, { ...userData });
+    const updatedUser = await this.User.findOne({ where: { id } });
+    return updatedUser;
   }
 }

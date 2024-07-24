@@ -9,10 +9,14 @@ import {
 @Injectable()
 export class ValidateCreateUserPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    const parseAgeToInt = parseInt(value.age);
-    if (isNaN(parseAgeToInt))
-      throw new HttpException('Age is not a number', HttpStatus.BAD_REQUEST);
+    if (!(value.password === value.passwordConfirm)) {
+      throw new HttpException(
+        "The password and password confirm don't match",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
-    return { ...value, age: parseAgeToInt };
+    delete value.passwordConfirm;
+    return { ...value };
   }
 }

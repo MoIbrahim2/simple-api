@@ -7,15 +7,11 @@ import {
 
 export class CreateUserDto {
   @IsNotEmpty()
-  id: number;
-
-  @IsNotEmpty()
   username: string;
 
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
+  password: string;
 
   @IsNotEmpty()
-  age: number;
+  passwordConfirm: string;
 }

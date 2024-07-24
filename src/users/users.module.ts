@@ -6,15 +6,19 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 
-import * as morgan from 'morgan';
-
-import { UserControllerController } from './user-controller/user-controller.controller';
+import { UserController } from './controller/users/user.controller';
 import { UsersService } from './services/users/users.service';
 import { ExampleMiddleware } from './middleware/example/example.middleware';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'entities/User';
+import { ProfilesController } from './controller/profiles/profiles.controller';
+import { ProfilesService } from './services/profiles/profiles.service';
+import { Profile } from 'entities/Profile';
 
 @Module({
-  controllers: [UserControllerController],
-  providers: [UsersService],
+  imports: [TypeOrmModule.forFeature([User, Profile])],
+  controllers: [UserController, ProfilesController],
+  providers: [UsersService, ProfilesService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
