@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { profile } from 'console';
 import { User } from 'entities/User';
 import { Repository } from 'typeorm';
 
@@ -13,7 +14,7 @@ export class UsersService {
   constructor(@InjectRepository(User) private User: Repository<User>) {}
 
   async getAllUsers() {
-    const users = await this.User.find();
+    const users = await this.User.find({ relations: ['profile'] });
     return users;
   }
   async createUser(userData) {

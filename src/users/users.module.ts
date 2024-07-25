@@ -14,11 +14,14 @@ import { User } from 'entities/User';
 import { ProfilesController } from './controller/profiles/profiles.controller';
 import { ProfilesService } from './services/profiles/profiles.service';
 import { Profile } from 'entities/Profile';
+import { PostsService } from './services/posts/posts.service';
+import { PostsController } from './controller/posts/posts.controller';
+import { Post } from 'entities/Posts';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Profile])],
-  controllers: [UserController, ProfilesController],
-  providers: [UsersService, ProfilesService],
+  imports: [TypeOrmModule.forFeature([User, Profile, Post])],
+  controllers: [UserController, ProfilesController, PostsController],
+  providers: [UsersService, ProfilesService, PostsService],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
