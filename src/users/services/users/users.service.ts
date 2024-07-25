@@ -14,7 +14,7 @@ export class UsersService {
   constructor(@InjectRepository(User) private User: Repository<User>) {}
 
   async getAllUsers() {
-    const users = await this.User.find({ relations: ['profile'] });
+    const users = await this.User.find({ relations: ['profile', 'posts'] });
     return users;
   }
   async createUser(userData) {

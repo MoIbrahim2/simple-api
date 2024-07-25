@@ -17,7 +17,7 @@ export class PostsService {
 
     const post = this.Post.create({
       ...createUserPostData,
-      ...user,
+      user,
     });
     const savedPost = await this.Post.save(post);
     return savedPost;

@@ -4,5 +4,5 @@ export class createUserPostDto {
   @IsNotEmpty()
   title: string;
   @IsNotEmpty()
-  dictionary: string;
+  description: string;
 }

@@ -10,7 +10,7 @@ export class Post {
   title: string;
 
   @Column()
-  dictionary: string;
+  description: string;
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
