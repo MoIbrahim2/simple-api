@@ -5,7 +5,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { profile } from 'console';
 import { User } from 'entities/User';
 import { Repository } from 'typeorm';
 

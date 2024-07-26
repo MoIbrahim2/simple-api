@@ -1,4 +1,5 @@
 import {
+  forwardRef,
   MiddlewareConsumer,
   Module,
   NestMiddleware,
@@ -17,11 +18,15 @@ import { Profile } from 'entities/Profile';
 import { PostsService } from './services/posts/posts.service';
 import { PostsController } from './controller/posts/posts.controller';
 import { Post } from 'entities/Posts';
+import { AuthGuard } from './guards/auth/auth.guard';
+import { AuthModule } from 'src/auth/auth.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Profile, Post])],
   controllers: [UserController, ProfilesController, PostsController],
-  providers: [UsersService, ProfilesService, PostsService],
+  providers: [UsersService, ProfilesService, PostsService, JwtService],
+  exports: [UsersModule],
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
