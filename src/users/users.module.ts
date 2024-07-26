@@ -18,8 +18,7 @@ import { Profile } from 'entities/Profile';
 import { PostsService } from './services/posts/posts.service';
 import { PostsController } from './controller/posts/posts.controller';
 import { Post } from 'entities/Posts';
-import { AuthGuard } from './guards/auth/auth.guard';
-import { AuthModule } from 'src/auth/auth.module';
+
 import { JwtService } from '@nestjs/jwt';
 
 @Module({

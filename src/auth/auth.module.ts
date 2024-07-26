@@ -7,7 +7,7 @@ import { UsersModule } from 'src/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'entities/User';
 import { UsersService } from 'src/users/services/users/users.service';
-import { AuthGuard } from 'src/users/guards/auth/auth.guard';
+import { AuthGuard } from './guards/auth/auth.guard';
 
 dotenv.config({
   path: '/Users/mohamedibrahim/Nest js/simple-api/src/config.env',
@@ -24,6 +24,6 @@ dotenv.config({
   ],
   providers: [AuthService, UsersService, AuthGuard],
   controllers: [AuthController],
-  exports: [AuthGuard, AuthModule],
+  exports: [AuthService, UsersService, AuthGuard],
 })
 export class AuthModule {}
