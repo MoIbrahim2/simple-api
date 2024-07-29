@@ -6,7 +6,6 @@ import * as dotenv from 'dotenv';
 import { UsersModule } from 'src/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'entities/User';
-import { UsersService } from 'src/users/services/users/users.service';
 import { AuthGuard } from './guards/auth/auth.guard';
 
 dotenv.config({
@@ -22,8 +21,8 @@ dotenv.config({
       signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
     }),
   ],
-  providers: [AuthService, UsersService, AuthGuard],
+  providers: [AuthService, AuthGuard],
   controllers: [AuthController],
-  exports: [AuthService, UsersService, AuthGuard],
+  exports: [AuthService, AuthGuard],
 })
 export class AuthModule {}

@@ -22,11 +22,12 @@ import { UsersService } from '../../services/users/users.service';
 import { ValidateCreateUserPipe } from '../../pipes/validate-create-user/validate-create-user.pipe';
 import { UpdateUserDto } from '../../dtos/updateUser.dto';
 import { AuthGuard } from 'src/auth/guards/auth/auth.guard';
+import { RestrictTO } from 'src/auth/guards/roles/roles.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UsersService) {}
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RestrictTO('admin'))
   @Get()
   async getUser() {
     const users = await this.userService.getAllUsers();

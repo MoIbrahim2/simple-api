@@ -13,6 +13,7 @@ import * as dotenv from 'dotenv';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'entities/User';
 import { Repository } from 'typeorm';
+import host from '@nestjs/platform-express';
 
 dotenv.config({
   path: '/Users/mohamedibrahim/Nest js/simple-api/src/config.env',
@@ -26,7 +27,8 @@ export class AuthGuard implements CanActivate {
   ) {}
   async canActivate(context: ExecutionContext): Promise<any> {
     const req = context.switchToHttp().getRequest() as Request;
-    let token;
+
+    let token: string;
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
@@ -43,7 +45,6 @@ export class AuthGuard implements CanActivate {
       decoded = await this.jwtService.verifyAsync(token, {
         secret: process.env.JWT_SECRET,
       });
-      console.log(decoded);
     } catch {
       throw new UnauthorizedException('unauthorized JWT token');
     }
@@ -53,7 +54,8 @@ export class AuthGuard implements CanActivate {
         'The user belonging to this token is no longer exists. Please login again',
         HttpStatus.UNAUTHORIZED,
       );
-    req['user'] = decoded;
+
+    req['user'] = user;
     return true;
   }
 }

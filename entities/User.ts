@@ -22,6 +22,14 @@ export class User {
   @Column({ select: false })
   password: string;
 
+  @Column({
+    type: 'enum',
+    enum: ['user', 'admin'],
+    default: 'user',
+    nullable: true,
+  })
+  role: string;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 12);

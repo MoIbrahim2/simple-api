@@ -26,7 +26,7 @@ export class ProfilesController {
   ) {
     return this.profileService.createUserProfile(
       userProfileData,
-      req['user'].userId,
+      req['user'].id,
     );
   }
 }

@@ -21,9 +21,6 @@ export class PostsController {
     @Req() req: Request,
     @Body() createUserPostData: createUserPostDto,
   ) {
-    return this.postsService.createUserPost(
-      req['user'].userId,
-      createUserPostData,
-    );
+    return this.postsService.createUserPost(req['user'].id, createUserPostData);
   }
 }
