@@ -13,6 +13,7 @@ import {
   Req,
   Res,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -23,6 +24,7 @@ import { ValidateCreateUserPipe } from '../../pipes/validate-create-user/validat
 import { UpdateUserDto } from '../../dtos/updateUser.dto';
 import { AuthGuard } from 'src/auth/guards/auth/auth.guard';
 import { RestrictTO } from 'src/auth/guards/roles/roles.guard';
+import { UserInterceptor } from 'src/users/interceptors/user/user.interceptor';
 
 @Controller('user')
 export class UserController {
@@ -34,26 +36,13 @@ export class UserController {
     return { users };
   }
 
-  @Post()
   @UsePipes(new ValidationPipe({}))
+  @Post()
   async createUser(@Body(ValidateCreateUserPipe) userData: CreateUserDto) {
     const user = await this.userService.createUser(userData);
     return { status: 'success', data: user };
   }
-  // @Get(':id')
-  // getUserById(@Param('id', ParseIntPipe) id: number) {
-  //   const user = this.userService.getUserById(id);
-  //   if (!user)
-  //     throw new HttpException('Resource not found', HttpStatus.NOT_FOUND);
-  //   return user;
-  // }
-  // @Delete(':id')
-  // deleteUserById(@Param('id', ParseIntPipe) id: number) {
-  //   const user = this.userService.deleteUser(id);
-  //   if (!user)
-  //     throw new HttpException('Resource not found', HttpStatus.NOT_FOUND);
-  //   return;
-  // }
+
   @Patch(':id')
   @UsePipes(new ValidationPipe())
   async editUserById(

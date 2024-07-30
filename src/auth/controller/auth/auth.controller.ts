@@ -2,12 +2,14 @@ import {
   Body,
   Controller,
   Post,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from 'src/auth/services/auth/auth.service';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import { LoginData } from 'src/users/dtos/loginUser.dto';
+import { UserInterceptor } from 'src/users/interceptors/user/user.interceptor';
 import { ValidateCreateUserPipe } from 'src/users/pipes/validate-create-user/validate-create-user.pipe';
 import { ReturnDocument } from 'typeorm';
 
@@ -16,6 +18,7 @@ import { ReturnDocument } from 'typeorm';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @UseInterceptors(UserInterceptor)
   @Post('/signup')
   async singup(@Body(ValidateCreateUserPipe) createUserData: CreateUserDto) {
     return this.authService.singup(createUserData);
