@@ -1,10 +1,9 @@
-x = [
-  { id: 1, name: 'mohamed' },
-  { id: 2, name: 'ahmed' },
-];
-v = { name: 'khaled' };
-id = 1;
-x = x.map((el) => {
-  if (el.id === id) return { ...el, ...v };
+const x = { id: { gte: '4' } };
+Object.keys(x).forEach((key) => {
+  const value = x[key];
+  console.log(
+    Object.keys(value).some((key) => /\b(gte|gt|lte|lt)\b/.test(key)),
+  );
 });
-console.log(x);
+
+console.log(x['id']);

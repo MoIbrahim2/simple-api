@@ -13,7 +13,7 @@ import { UserInterceptor } from 'src/users/interceptors/user/user.interceptor';
 import { ValidateCreateUserPipe } from 'src/users/pipes/validate-create-user/validate-create-user.pipe';
 import { ReturnDocument } from 'typeorm';
 
-@UsePipes(new ValidationPipe())
+@UsePipes(ValidationPipe)
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

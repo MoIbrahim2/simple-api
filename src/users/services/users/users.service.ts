@@ -7,13 +7,24 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'entities/User';
 import { Repository } from 'typeorm';
+import { ApiFeatures } from 'utils/ApiFeatures';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private User: Repository<User>) {}
 
-  async getAllUsers() {
-    const users = await this.User.find({ relations: ['profile', 'posts'] });
+  async getAllUsers(queryParam) {
+    const queryBuilder = this.User.createQueryBuilder('user')
+      .leftJoinAndSelect('user.profile', 'profile')
+      .leftJoinAndSelect('user.posts', 'posts');
+
+    const features = new ApiFeatures(queryBuilder, queryParam)
+      .sort()
+      .limitFields()
+      .filter()
+      .returnQuery();
+
+    const users = await features.getMany();
     return users;
   }
   async createUser(userData) {

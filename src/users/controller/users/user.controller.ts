@@ -31,8 +31,8 @@ export class UserController {
   constructor(private userService: UsersService) {}
   @UseGuards(AuthGuard, RestrictTO('admin'))
   @Get()
-  async getUser() {
-    const users = await this.userService.getAllUsers();
+  async getUser(@Req() req: Request) {
+    const users = await this.userService.getAllUsers(req.query);
     return { users };
   }
 

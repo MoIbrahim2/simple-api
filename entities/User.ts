@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 import { Profile } from './Profile';
 import { Post } from './Posts';
-import * as bcrypt from 'bcrypt';
 
 @Entity({ name: 'users' })
 export class User {
@@ -29,11 +28,6 @@ export class User {
     nullable: true,
   })
   role: string;
-
-  @BeforeInsert()
-  async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 12);
-  }
 
   @OneToOne(() => Profile)
   @JoinColumn()
