@@ -11,7 +11,6 @@ import { CreateUserDto } from 'src/users/dtos/createUser.dto';
 import { LoginData } from 'src/users/dtos/loginUser.dto';
 import { UserInterceptor } from 'src/users/interceptors/user/user.interceptor';
 import { ValidateCreateUserPipe } from 'src/users/pipes/validate-create-user/validate-create-user.pipe';
-import { ReturnDocument } from 'typeorm';
 
 @UsePipes(ValidationPipe)
 @Controller('auth')

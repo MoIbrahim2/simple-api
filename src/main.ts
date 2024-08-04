@@ -9,6 +9,8 @@ async function bootstrap() {
   dotenv.config({
     path: '/Users/mohamedibrahim/Nest js/simple-api/src/config.env',
   });
+
+  app.setGlobalPrefix('api/v1');
   app.use(morgan('dev'));
   await app.listen(process.env.PORT, () =>
     console.log('The server is running'),

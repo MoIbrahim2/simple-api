@@ -13,7 +13,6 @@ import * as dotenv from 'dotenv';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'entities/User';
 import { Repository } from 'typeorm';
-import host from '@nestjs/platform-express';
 
 dotenv.config({
   path: '/Users/mohamedibrahim/Nest js/simple-api/src/config.env',

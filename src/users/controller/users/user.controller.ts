@@ -25,11 +25,13 @@ import { UpdateUserDto } from '../../dtos/updateUser.dto';
 import { AuthGuard } from 'src/auth/guards/auth/auth.guard';
 import { RestrictTO } from 'src/auth/guards/roles/roles.guard';
 import { UserInterceptor } from 'src/users/interceptors/user/user.interceptor';
+import { CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UsersService) {}
   @UseGuards(AuthGuard, RestrictTO('admin'))
+  @CacheTTL(50000)
   @Get()
   async getUser(@Req() req: Request) {
     const users = await this.userService.getAllUsers(req.query);
@@ -52,9 +54,10 @@ export class UserController {
     const user = await this.userService.editUserById(id, userData);
     return user;
   }
-  @Delete(':id')
-  async deleteUser(@Param('id', ParseIntPipe) id: number) {
-    await this.userService.deleteUser(id);
+  @Delete()
+  @UseGuards(AuthGuard)
+  async deleteUser(@Req() req: Request) {
+    await this.userService.deleteUser(req['user'].id);
     return;
   }
 }

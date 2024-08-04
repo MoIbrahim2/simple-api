@@ -18,9 +18,13 @@ import { PostsController } from './controller/posts/posts.controller';
 import { Post } from 'entities/Posts';
 
 import { JwtService } from '@nestjs/jwt';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Profile, Post])],
+  imports: [
+    TypeOrmModule.forFeature([User, Profile, Post]),
+    CacheModule.register(),
+  ],
   controllers: [UserController, ProfilesController, PostsController],
   providers: [UsersService, ProfilesService, PostsService, JwtService],
   exports: [UsersModule],

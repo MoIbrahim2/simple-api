@@ -6,9 +6,12 @@ import { Profile } from 'entities/Profile';
 import { Post } from 'entities/Posts';
 import { AuthModule } from './auth/auth.module';
 import { UserSubscriber } from './users/subscribers/user.subscriber';
+import { CacheModule } from '@nestjs/cache-manager';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     AuthModule,
     UsersModule,
     TypeOrmModule.forRoot({

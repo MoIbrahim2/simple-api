@@ -3,9 +3,11 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'entities/User';
 import { CreateUserDto } from 'src/users/dtos/createUser.dto';
-import { createUserPostDto } from 'src/users/dtos/createUserPost.dto';
+
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
+
+import { createCheckStayingLoginCronJob } from 'utils/checkLogin';
 
 @Injectable()
 export class AuthService {
@@ -36,6 +38,9 @@ export class AuthService {
         HttpStatus.NOT_FOUND,
       );
     const token = await this.jwtService.signAsync({ userId: user.id });
+
+    createCheckStayingLoginCronJob(token);
+
     return { token };
   }
 }
