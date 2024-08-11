@@ -1,3 +1,4 @@
+import { InjectQueue } from '@nestjs/bullmq';
 import {
   HttpException,
   HttpStatus,
@@ -5,13 +6,17 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Queue } from 'bullmq';
 import { User } from 'entities/User';
 import { Repository } from 'typeorm';
 import { ApiFeatures } from 'utils/ApiFeatures';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private User: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private User: Repository<User>,
+    @InjectQueue('addUser') private addUser: Queue,
+  ) {}
 
   async getAllUsers(queryParam) {
     const queryBuilder = this.User.createQueryBuilder('user')
@@ -25,6 +30,12 @@ export class UsersService {
       .returnQuery();
 
     const users = await features.getMany();
+
+    // eample of add job to queue
+    // users.forEach(async (user) => {
+    //   await this.addUser.add('addUser', { user });
+    // });
+
     return users;
   }
   async createUser(userData) {

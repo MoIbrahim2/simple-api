@@ -1,11 +1,6 @@
-import { Exclude } from 'class-transformer';
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 
-export class CreateUserDto {
-  @IsNotEmpty()
-  @MinLength(6, { message: 'Username should not be less than 6 characters' })
-  username: string;
-
+export class ResetPasswordDto {
   @IsNotEmpty()
   @MinLength(8, { message: 'Password must be at least 8 characters long' })
   @MaxLength(20, {
@@ -15,6 +10,4 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   passwordConfirm: string;
-
-  role: string;
 }

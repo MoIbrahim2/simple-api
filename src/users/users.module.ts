@@ -19,14 +19,27 @@ import { Post } from 'entities/Posts';
 
 import { JwtService } from '@nestjs/jwt';
 import { CacheModule } from '@nestjs/cache-manager';
+import { BullModule } from '@nestjs/bullmq';
+import { AddUserConsumer } from './user.process';
+import { UserCreatedListener } from './user-created.listener';
 
 @Module({
   imports: [
+    BullModule.registerQueue({
+      name: 'addUser',
+    }),
     TypeOrmModule.forFeature([User, Profile, Post]),
     CacheModule.register(),
   ],
   controllers: [UserController, ProfilesController, PostsController],
-  providers: [UsersService, ProfilesService, PostsService, JwtService],
+  providers: [
+    UsersService,
+    ProfilesService,
+    PostsService,
+    JwtService,
+    AddUserConsumer,
+    UserCreatedListener,
+  ],
   exports: [UsersModule],
 })
 export class UsersModule implements NestModule {

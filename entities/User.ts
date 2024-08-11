@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   BeforeInsert,
   Column,
   Entity,
@@ -9,6 +10,7 @@ import {
 } from 'typeorm';
 import { Profile } from './Profile';
 import { Post } from './Posts';
+import { Transform } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User {
@@ -25,9 +27,14 @@ export class User {
     type: 'enum',
     enum: ['user', 'admin'],
     default: 'user',
-    nullable: true,
   })
   role: string;
+
+  @Column({ nullable: true, select: false })
+  passwordResetToken: string;
+
+  @Column({ type: 'timestamp', nullable: true, select: false })
+  resetTokenExpiresAt: Date;
 
   @OneToOne(() => Profile)
   @JoinColumn()

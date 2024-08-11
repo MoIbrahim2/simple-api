@@ -1,16 +1,21 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'entities/User';
-import { Profile } from 'entities/Profile';
-import { Post } from 'entities/Posts';
 import { AuthModule } from './auth/auth.module';
 import { UserSubscriber } from './users/subscribers/user.subscriber';
-import { CacheModule } from '@nestjs/cache-manager';
 import { ScheduleModule } from '@nestjs/schedule';
+import { BullModule } from '@nestjs/bullmq';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
+    BullModule.forRoot({
+      connection: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
     ScheduleModule.forRoot(),
     AuthModule,
     UsersModule,
